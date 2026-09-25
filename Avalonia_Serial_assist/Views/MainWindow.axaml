@@ -1,0 +1,39 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Avalonia_Serial_assist.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=System.ComponentModel.Primitives"
+        xmlns:component="clr-namespace:Avalonia_Serial_assist.Views.Component"
+        xmlns:components="clr-namespace:Avalonia_Serial_assist.Views.Components"
+        mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="710"
+        x:Class="Avalonia_Serial_assist.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/favicon.ico"
+        Width="1100" Height="710"
+        MinWidth="1100" MinHeight="710"
+        Title="Avalonia Serial Assist（串口助手工具）">
+
+    <Design.DataContext>
+        <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <!-- 第 0列 -->
+            <ColumnDefinition Width="280" MinWidth="280" MaxWidth="360"/>
+            <!-- 第 1列 分割条 -->
+            <ColumnDefinition Width="2"/>
+            <!-- 第 2列 -->
+            <ColumnDefinition Width="*" MinWidth="300"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0"  >
+            <component:LeftConfigPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Background="Gray" ></StackPanel>
+        <Grid Grid.Column="2">
+            <components:RATPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,122 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="950"
+             x:Class="Avalonia_Serial_assist.Views.Component.LeftConfigPanel">
+    <StackPanel  Spacing="12" Width="280">
+
+        <Border CornerRadius="6" Background="#F5F5F5" Padding="12">
+            <StackPanel Spacing="8">
+                <Label FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" Foreground="#333333">基本设置</Label>
+                <Separator Margin="0" Height="1" Background="#E0E0E0"></Separator>
+                
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                            Spacing="8" Margin="0">
+                    <Label FontSize="13" VerticalAlignment="Center" Width="60" >端口:</Label>
+                    <ComboBox SelectedIndex="0" FontSize="12" Width="150" Padding="4 2" Name="CBPORT" DropDownOpened="CBPORT_OnDropDownOpened" >
+                        <ComboBoxItem Content="None" />
+                    </ComboBox>
+                </StackPanel>
+
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                            Spacing="8" Margin="0">
+                    <Label FontSize="13" VerticalAlignment="Center" Width="60" >波特率:</Label>
+                    <ComboBox SelectedIndex="0" FontSize="12" Width="150" Padding="4 2" Name="CBBaudRate">
+                        <ComboBoxItem Content="9600" />
+                        <ComboBoxItem Content="19200" />
+                        <ComboBoxItem Content="38400" />
+                        <ComboBoxItem Content="57600" />
+                        <ComboBoxItem Content="115200" />
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                            Spacing="8" Margin="0">
+                    <Label FontSize="13" VerticalAlignment="Center" Width="60" >数据位:</Label>
+                    <ComboBox SelectedIndex="0" FontSize="12" Width="150" Padding="4 2" Name="CBDataBits">
+                        <ComboBoxItem Content="5" />
+                        <ComboBoxItem Content="6" />
+                        <ComboBoxItem Content="7" />
+                        <ComboBoxItem Content="8" />
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                            Spacing="8" Margin="0">
+                    <Label FontSize="13" VerticalAlignment="Center" Width="60" >校验位:</Label>
+                    <ComboBox SelectedIndex="0" FontSize="12" Width="150" Padding="4 2" Name="CBParity">
+                        <ComboBoxItem Content="None" />
+                        <ComboBoxItem Content="Odd" />
+                        <ComboBoxItem Content="Even" />
+                        <ComboBoxItem Content="Space" />
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                            Spacing="8" Margin="0">
+                    <Label FontSize="13" VerticalAlignment="Center" Width="60">停止位:</Label>
+                    <ComboBox SelectedIndex="0" FontSize="12" Width="150" Padding="4 2" Name="CBStopBits">
+                        <ComboBoxItem Content="1" />
+                        <ComboBoxItem Content="1.5" />
+                        <ComboBoxItem Content="2" />
+                    </ComboBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                            Spacing="8" Margin="0">
+                    <ToggleButton Width="60" FontSize="12" Padding="4 2" Name="TBRTSSet" Click="TBRTSSet_OnClick">RTS</ToggleButton>
+                    <ToggleButton Width="60" FontSize="12" Padding="4 2" Name="TBDTRSet" Click="TBDTRSet_OnClick">DTR</ToggleButton>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center"
+                            Margin="0">
+                    <ToggleButton Name="BTNOpenSerial" Click="BTNOpenSerial_OnClick" Width="218" FontSize="13" Padding="6 4" HorizontalContentAlignment="Center" FontWeight="Bold" Background="#2196F3" Foreground="White" CornerRadius="4">打开串口</ToggleButton>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+
+        <Border CornerRadius="6" Background="#F5F5F5" Padding="12">
+            <StackPanel Spacing="8">
+                <Label FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" Foreground="#333333">接收配置</Label>
+                <Separator Margin="0" Height="1" Background="#E0E0E0"></Separator>
+        
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                            Margin="0">
+                    <CheckBox FontSize="13" Foreground="#333"  Name="CBRXHexDisplay" Click="CBRXHexDisplay_OnClick">十六进制显示</CheckBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                            Spacing="8" Margin="0">
+                    <Label VerticalAlignment="Center" FontSize="13" Width="60">自动断帧</Label>
+                    <TextBox Watermark="20ms" FontSize="12" Width="100" Padding="4 2" Name="TBXAutoFrameTime"></TextBox>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                            Spacing="16" Margin="0">
+                    <Button FontSize="12" Padding="6 3" Background="#4CAF50" Foreground="White" CornerRadius="3" Name="BTNSave" >保存数据</Button>
+                    <Button FontSize="12" Padding="6 3" Background="#F44336" Foreground="White" CornerRadius="3" Name="BTNCountRST" Click="BTNCountRST_OnClick">清空数据</Button>
+                </StackPanel>
+
+                <Label FontSize="14" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" Foreground="#333333">发送配置</Label>
+                <Separator Margin="0" Height="1" Background="#E0E0E0"></Separator>
+
+                <CheckBox FontSize="13" Foreground="#333" Name="CBTXHex" Click="CBTXHex_OnClick">十六进制发送</CheckBox>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
+                            Spacing="8" Margin="0">
+                    <CheckBox FontSize="13" Foreground="#333" Name="CBTXAutoSend" Click="CBTXAutoSend_OnClick">定时发送</CheckBox>
+                    <TextBox Watermark="100ms" FontSize="13" Width="80" Padding="4 2" Name="TBXAutoSendTime" Text="100" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></TextBox>
+                    <Label VerticalAlignment="Center" FontSize="13">ms</Label>
+                </StackPanel>
+
+                <!-- <CheckBox FontSize="13" Foreground="#333" Name="CBTXTerminalMode">终端模式</CheckBox> -->
+                <CheckBox FontSize="13" Foreground="#333" Name="CBTXAutoSwitchSerial">自动开关串口</CheckBox>
+                <CheckBox FontSize="13" Foreground="#333" Name="CBTXAutoReconnect">自动重连</CheckBox>
+            </StackPanel>
+        </Border>
+
+
+    </StackPanel>
+</UserControl>

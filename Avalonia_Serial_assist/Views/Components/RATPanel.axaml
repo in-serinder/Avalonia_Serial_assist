@@ -1,0 +1,117 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:components="clr-namespace:Avalonia_Serial_assist.Views.Components"
+             xmlns:viewModels="clr-namespace:Avalonia_Serial_assist.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Avalonia_Serial_assist.Views.Components.RATPanel">
+    <UserControl.Resources>
+        <viewModels:DirectionToColorConverter x:Key="DirectionToColorConverter" />
+    </UserControl.Resources>
+    <DockPanel LastChildFill="True">
+
+        <!-- 状态栏 - 显示计数信息 -->
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Background="#333333" Margin="0 0 0 0" Spacing="30">
+            <StackPanel Orientation="Horizontal" Spacing="6" Margin="12 6">
+                <TextBlock Text="TX:" Foreground="#4CAF50" FontSize="12" FontWeight="Bold" />
+                <TextBlock Text="0" Foreground="White" FontSize="12" Name="LabTX" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6" Margin="0 6">
+                <TextBlock Text="RX:" Foreground="#2196F3" FontSize="12" FontWeight="Bold"  />
+                <TextBlock Text="0" Foreground="White" FontSize="12" Name="LabRX" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Spacing="6" Margin="0 6">
+                <TextBlock Text="ERR:" Foreground="#F44336" FontSize="12" FontWeight="Bold" />
+                <TextBlock Text="0" Foreground="White" FontSize="12" Name="LabERR" />
+            </StackPanel>
+            <Separator Width="1" Background="#555" Margin="0 4" />
+            <Button Content="复位计数" FontSize="11" Name="BTNCountRST" Click="BTNCountRST_OnClick" Background="#555" Foreground="White" Margin="0 4" />
+        </StackPanel>
+
+        <!-- 发送区域 -->
+        <StackPanel DockPanel.Dock="Bottom" Background="#F5F5F5" Margin="0 0 0 0" Spacing="8">
+            <Label FontSize="13" FontWeight="Bold" Foreground="#333" Margin="10 0 0 0">发送数据</Label>
+            <!-- 合并为一个容器，输入框占用剩余空间 -->
+            <Border Background="White" BorderThickness="1" BorderBrush="#DDD" Margin="10 0 10 10">
+                <DockPanel>
+                    <Button DockPanel.Dock="Right" FontWeight="Bold" Content="发送" Name="BtnSend"
+                            Click="BtnSend_OnClick" FontSize="20" VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Center" Width="80" Height="48" Background="#2196F3"
+                            Foreground="White">
+                        <Button.Styles>
+                            <Style Selector="Button">
+                                <Setter Property="CornerRadius" Value="0" />
+                            </Style>
+                        </Button.Styles>
+                    </Button>
+                    <TextBox MinHeight="48" FontSize="13" Margin="8 0 0 0" Watermark="输入要发送的数据..." Name="TBSendData" />
+                </DockPanel>
+            </Border>
+        </StackPanel>
+
+        <!-- 接收区域 -->
+        <Border BorderBrush="#E0E0E0" BorderThickness="1" Background="White">
+            <DockPanel LastChildFill="True">
+                <!-- 标题栏 -->
+                <DockPanel DockPanel.Dock="Top" Background="#EEEEEE" Margin="0 0 0 0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="8" Margin="10 4">
+                        <Label FontSize="13" FontWeight="Bold" Foreground="#333">接收数据</Label>
+                        <Separator Width="1" Background="#DDD" />
+                        <TextBlock FontSize="11" Foreground="#666" VerticalAlignment="Center">HEX显示</TextBlock>
+                    </StackPanel>
+                    <!-- 文件编码显示 - 右对齐 -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Spacing="4" DockPanel.Dock="Right" Margin="10 4">
+                        <Label FontSize="11" Foreground="#666" VerticalAlignment="Center">编码：</Label>
+                        <ComboBox SelectedIndex="0" FontSize="11" Width="75" Padding="2 1" Name="CBRXEncode" BorderThickness="0" Background="Transparent">
+                            <ComboBoxItem Content="UTF-8" />
+                            <ComboBoxItem Content="GBK" />
+                            <ComboBoxItem Content="GB2312" />
+                        </ComboBox>
+                    </StackPanel>
+                </DockPanel>
+                <!-- 消息列表 -->
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <ListBox Background="#FAFAFA" BorderThickness="0" Name="LIBReceive" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="components:WindowItem">
+                            <Border Background="White" BorderBrush="#F0F0F0">
+                                <Border.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="复制" Name="CTMCopy" Click="CTMCopy_OnClick"/>
+                                        <MenuItem Header="删除" Name="CTMDel" Click="CTMDel_OnClick"/>
+                                        <MenuItem Header="清空" Name="CTMClear" Click="CTMClear_OnClick"/>
+                                    </ContextMenu>
+                                </Border.ContextMenu>
+                                <StackPanel Margin="10">
+                                    <!-- 消息内容 -->
+                                    <TextBlock Text="{Binding Message}" FontSize="13" Foreground="#333" Margin="0 4" />
+                                    <Separator Foreground="#eee" Background="#eee"></Separator>
+                                    <!-- 底部信息栏 -->
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                        <!-- 包括数据方向 -->
+                                        <TextBlock FontSize="11" FontWeight="Bold" Foreground="{Binding Direction, Converter={StaticResource DirectionToColorConverter}}">
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0}:{1}">
+                                                    <Binding Path="Direction" />
+                                                    <Binding Path="Size" />
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                        <!-- 占位元素：占据中间所有空间 -->
+                                        <Rectangle Fill="Transparent" MinWidth="300" HorizontalAlignment="Stretch" />
+                                        <!-- 时间 -->
+                                        <TextBlock Text="{Binding Time}" FontSize="11" Foreground="#888"
+                                                   HorizontalAlignment="Right" Margin="0 0 8 0" />
+                                    </StackPanel>
+                                   
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                </ScrollViewer>
+            </DockPanel>
+        </Border>
+    </DockPanel>
+</UserControl>
